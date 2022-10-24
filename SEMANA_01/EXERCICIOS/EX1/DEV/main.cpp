@@ -1,11 +1,28 @@
 #include <iostream>
 #include <string>
+using namespace std;
 
 // 1 -  Faça uma função que recebe uma certa medida e ajusta ela percentualmente 
 // entre dois valores mínimo e máximo e retorna esse valor
+int converteSensor(int valor, int min, int max){
+	float medida1 = (valor - min);
+	float medida2 = (max-min);
+	return int((medida1/medida2)*100);
+}
 
 // 2 - Faça uma função que simule a leitura de um sensor lendo o 
 // valor do teclado ao final a função retorna este valor
+
+int Sensor()
+{
+	int value;
+	char b[100];
+
+	scanf("%i",&value);
+	fgets(b, 1, stdin);
+
+	return value;
+}
 
 // 3 - Faça uma função que armazena uma medida inteira qualquer 
 // em um vetor fornecido. Note que como C não possui vetores 
@@ -13,6 +30,13 @@
 // valor máximo do vetor assim como a última posição preenchida
 // Evite também que, por acidente, um valor seja escrito em 
 // uma área de memória fora do vetor
+
+int InserirnoArray(int newValue, int lastIndex, int *v, int maxSize)
+{
+	int *array = v;
+	array[lastIndex] = newValue;
+	return lastIndex+1;
+}
 
 
 
@@ -22,11 +46,36 @@
 // de maior distância ("Direita", "Esquerda", "Frente", "Tras") e a 
 // segunda é esta maior distância.
 
+const char* direcaoMenorCaminho(int *array, int *maxValue){
+	const char* directions[]={"direita", "esquerda", "frente", "tras"};
+	int index = -1;
 
+	for(int i = 0; i < 4; i++){
+		if(array[i] > *maxValue){
+		  *maxValue = array[i];
+		  index = i;
+		}
+	}
+}
 
 
 // 5 - Faça uma função que pergunta ao usuário se ele deseja continuar o mapeamento e 
 // retorna verdadeiro ou falso
+
+bool leComando(){
+
+	string answer;
+	char a[100];
+
+	printf("Deseja continuar mapeando? Y/N");
+	cin >> answer;
+	if(answer == "N" || answer == "n"){
+		return false;
+	}
+		else{
+			return true;
+		}
+}
 
 
 // 6 - A função abaixo (que está incompleta) vai "dirigindo" virtualmente um robô 
@@ -47,16 +96,19 @@ int dirige(int *v,int maxv){
 	int maxVetor = maxv;
 	int *vetorMov = v;
 	int posAtualVetor = 0;
-	int dirigindo = 1;		
-	while(dirigindo){		
-		int medida = /// .. Chame a função de de leitura da medida para a "Direita"
-		medida = converteSensor(medida,0,830);
-		posAtualVetor = // Chame a função para armazenar a medida no vetor
-        ///////////////////////////////////////////////////////////////////////////		
-		// Repita as chamadas acima para a "Esquerda", "Frente", "Tras"
-		// ................
-		///////////////////////////////////////////////////////////////////////////
-		dirigindo = leComando();		
+	bool dirigindo = true;		
+
+	while(dirigindo){	
+		for(int i = 0; i < 4; i++){	
+			int medida = Sensor(); /// .. Chame a função de de leitura da medida para a "Direita"
+			medida = converteSensor(medida,0,830);
+			posAtualVetor = InserirnoArray(medida,posAtualVetor, vetorMov,maxVetor); // Chame a função para armazenar a medida no vetor
+        	///////////////////////////////////////////////////////////////////////////		
+			// Repita as chamadas acima para a "Esquerda", "Frente", "Tras"
+			// ................
+			///////////////////////////////////////////////////////////////////////////
+		}	
+		dirigindo = leComando();
 	}
 	return posAtualVetor;
 }
@@ -70,7 +122,7 @@ void percorre(int *v,int tamPercorrido){
 	int maiorDir = 0;
 	
 	for(int i = 0; i< tamPercorrido; i+=4){
-		char *direcao = direcaoMenorCaminho(&(vetorMov[i]),&maiorDir);
+		const char *direcao = direcaoMenorCaminho(&(vetorMov[i]),&maiorDir);
 		printf("Movimentando para %s distancia = %i\n",direcao,maiorDir);
 	}
 }
