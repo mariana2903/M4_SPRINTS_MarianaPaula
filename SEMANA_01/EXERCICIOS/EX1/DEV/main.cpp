@@ -31,11 +31,11 @@ int Sensor()
 // Evite também que, por acidente, um valor seja escrito em 
 // uma área de memória fora do vetor
 
-int InserirnoArray(int newValue, int lastIndex, int *v, int maxSize)
+int InserirnoArray(int novoValor, int ultimonumero, int *v, int tamanhomaximo)
 {
 	int *array = v;
-	array[lastIndex] = newValue;
-	return lastIndex+1;
+	array[ultimonumero] = novoValor;
+	return ultimonumero+1;
 }
 
 
